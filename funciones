@@ -1,0 +1,26 @@
+import discord
+from discord.ext import commands
+from bot_logic import gen_pass
+
+description = 'Este es un bot de Discord que genera contraseñas aleatorias.'
+intents = discord.Intents.default()
+intents.members = True
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="$", description=description, intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Logeado como {bot.user} (ID: {bot.user.id})')
+
+@bot.command()
+async def generar_contrasena(ctx, pass_length: int):
+    '''Genera una contraseña aleatoria de la longitud especificada'''
+    if pass_length <= 0:
+        await ctx.send("La longitud de la contraseña debe ser mayor que cero.")
+        return
+
+    password = gen_pass(pass_length)
+    await ctx.send(f"Aquí tienes tu contraseña aleatoria de longitud {pass_length}: {password}")
+
+bot.run('MTI0ODk5MTU4MjIyNTQzNjgwNA.Gv3ZFZ.SWi1fkSRZ7S-3a_Cj2qHBetFN74Px1k26zyHbE')
